@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1634409919 source:e:\code blocks\hospital management\main.c
+	<stdio.h>
+	<windows.h>
+	<conio.h>
+	<ctype.h>
+	<string.h>
+	<stdlib.h>
+	<unistd.h>
+
