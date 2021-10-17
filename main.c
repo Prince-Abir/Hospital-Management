@@ -13,6 +13,18 @@ void mainmenu();
 void add_rec();
 
 
+
+void TakingFirstName();
+void TakingLastName();
+void TakingGender();
+void TakingAge();
+void TakingNumber();
+void TakingAddress();
+void TakingDoctorName();
+void TakingProblem();
+
+
+
 FILE *SignUpName;
 FILE *SignUpEmail;
 FILE *SignUpPassword;
@@ -23,7 +35,7 @@ struct patient
     char gender;
     char first_name[15];
     char last_name[15];
-    char contract_number[14];
+    char contract_number[20];
     char address[50];
     char doctor[20];
     char problem[20];
@@ -33,9 +45,17 @@ int b, valid = 0;
 
 int main()
 {
-    welcome_screen();
-    title_screen();
-    signup_screen();
+    //welcome_screen();
+    //title_screen();
+    //signup_screen();
+
+    add_rec();
+}
+
+void gotoXY(int x,int y){
+
+    COORD pos = {x , y};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),pos);
 }
 
 //function for welcome Screen
@@ -116,6 +136,7 @@ void signup_screen()
 
             printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tPassword Does not Match! Try Again ):");
             e++;
+            sleep(2);
             system("cls");
             signup_screen();
 
@@ -160,8 +181,8 @@ void login_screen()
         if (strcmp(email,OriginalEmail) == 0 && strcmp(password, OriginalPassword) == 0)
         {
 
-            printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tLogin Successful......");
-            sleep(3);
+            printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tLoged In Successfully......");
+            sleep(2);
             system("cls");
             mainmenu();
         }
@@ -169,7 +190,7 @@ void login_screen()
         else
         {
 
-            printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tLogin Failed!Try Again");
+            printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEmail or Password Does not Match! Try Again ):");
             sleep(2);
             e++;
             system("cls");
@@ -201,54 +222,77 @@ void mainmenu()
     {
     case 1:
         add_rec();
+        break;
 
     case 2:
         printf("\n\n\t\t\t\t\t\t\t\t\t\tList patients Record");
+        break;
 
 
     case 3:
         printf("\n\n\t\t\t\t\t\t\t\t\t\tSearch patients Record");
+        break;
 
 
     case 4:
         printf("\n\n\t\t\t\t\t\t\t\t\t\tEdit patients Record");
+        break;
 
 
     case 5:
         printf("\n\n\t\t\t\t\t\t\t\t\t\tDelete patients Record");
+        break;
 
     case 6:
         printf("\n\n\t\t\t\t\t\t\t\t\t\tExit");
+        break;
 
 
     default:
         printf("\n\n\t\t\t\t\t\t\t\t\t\tInvalid Input!");
+        getch();
+        mainmenu();
     }
-    system("cls");
+
 }
 
 void add_rec()
 {
-    system("cls");
-    FILE *file;
-    file = fopen("Record.dat", "a");
-    title_screen();
-    printf("\n\n\n\n\n\t\t\t\t\t\t\t.....................Add Patient Record!.....................");
+    TakingFirstName();
+    TakingLastName();
+    TakingGender();
+    TakingAge();
+    TakingNumber();
+    TakingAddress();
+    TakingDoctorName();
+    TakingProblem();
+}
+
+
+//----------------------------------------Add Record Section Here--------------------------------------------//
 
 //----------------------------------------First Name--------------------------------------------//
-A:
+void TakingFirstName()
+{
+    FILE *AddPatientRecord;
+    AddPatientRecord = fopen("PatientRecord.dat","a");
+
+
+    B:
     title_screen();
-    printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\tEnter First Name: ");
+    printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t..............Add Patient Record!................");
+    printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEnter First Name: ");
     gets(p.first_name);
-    system("cls");
+
     p.first_name[0] = toupper(p.first_name[0]);
 
     if (strlen(p.first_name) > 15 || strlen(p.first_name) <= 2)
     {
 
-        title_screen();
-        printf("\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\tMaximum range of First name is 20 and Minimum range is 3");
-        goto A;
+        printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t max range of First name is 20 and min range is 2");
+        sleep(2);
+        system("cls");
+        goto B;
     }
     else
     {
@@ -256,236 +300,275 @@ A:
         {
             if (isalpha(p.first_name[b]))
             {
-                valid = 1;
+                system("cls");
+                TakingLastName();
             }
             else
             {
 
-                valid = 0;
-                break;
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tInvalid Input!First name cannot contain Numbe or any Operator");
+                sleep(2);
+                system("cls");
+                goto B;
             }
         }
 
-        if (!valid)
-        {
-
-            title_screen();
-            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t   Invalid Input!First name cannot contain Numbe or any Operator");
-            goto A;
-        }
     }
-    system("cls");
+}
 
-    //-------------------------------------Last Name-------------------------------------------//
+
+//-------------------------------------Last Name-------------------------------------------//
+void TakingLastName()
+{
+    B:
     title_screen();
-B:
+    printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t..............Add Patient Record!................");
     printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEnter Last Name: ");
     gets(p.last_name);
-    system("cls");
+
     p.last_name[0] = toupper(p.last_name[0]);
 
-    if (strlen(p.last_name) > 15 || strlen(p.last_name) <= 2)
-    {
+    int length = strlen(p.last_name);
 
-        printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t max range of Last name is 20 and min range is 2");
+    if(length>15 || length<=2)
+    {
+        printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t max range of Last name is 20 and min range is 2");
+        sleep(2);
+        system("cls");
         goto B;
+
     }
     else
     {
-        for (b = 0; b < strlen(p.last_name); b++)
+        for (b=0; b<length; b++)
         {
             if (isalpha(p.last_name[b]))
             {
-                valid = 1;
+                system("cls");
+                TakingGender();
             }
             else
             {
-
-                valid = 0;
-                break;
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tInvalid Input!Last name cannot contain Numbe or any Operator");
+                sleep(2);
+                system("cls");
+                goto B;
             }
         }
 
-        if (!valid)
-        {
 
-            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tInvalid Input!Last name cannot contain Numbe or any Operator");
-            goto B;
-        }
     }
-    system("cls");
+}
 
-    //------------------------------------Gender-------------------------------------//
+
+
+//------------------------------------Gender-------------------------------------//
+void TakingGender()
+{
+    C:
     title_screen();
-C:
+    printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t..............Add Patient Record!................");
     printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEnter Your Gender(M/F): ");
-    scanf(" %c", &p.gender);
-    system("cls");
+    scanf("%c",&p.gender);
 
     if (toupper(p.gender) == 'M' || toupper(p.gender) == 'F')
     {
-
-        goto D;
+        system("cls");
+        TakingAge();
     }
     else
     {
-        title_screen();
         printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t     Invalid Input!For male Choose 'M' and For Female Choose 'F'");
+        sleep(2);
+        system("cls");
         goto C;
     }
-    system("cls");
+}
 
-D:
+
+
+//------------------------------------Age-------------------------------------//
+void TakingAge()
+{
+
+    D:
     title_screen();
+    printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t..............Add Patient Record!................");
     printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEnter your Age: ");
     scanf("%d", &p.age);
-    system("cls");
 
     if (p.age <= 0 || p.age > 200)
     {
         printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tAge cannot be Less than 0 or Grater than 200!");
+        sleep(2);
+        system("cls");
         goto D;
     }
     else
     {
-        goto E;
+        system("cls");
+        TakingNumber();
     }
-    system("cls");
+
+}
+
+
 
 //-------------------------------------Contact Number-------------------------------------------//
-E:
+void TakingNumber()
+{
+
     title_screen();
-    printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEnter contact number: ");
+    printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t..............Add Patient Record!................");
+    printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEnter Contact Number: ");
     scanf("%s", &p.contract_number);
 
-    if (strlen(p.contract_number) > 14 || strlen(p.contract_number) < 11)
-    {
+    int numLength = strlen(p.contract_number);
 
-        printf("n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tMax range of contact number is 14");
-        goto E;
-    }
-    else
-    {
-        for (b = 0; b < strlen(p.contract_number); b++)
+        for(b = 0; b<numLength; b++)
         {
-            if (!isalpha(p.contract_number[b]))
+            if(!isalpha(p.contract_number[b]))
             {
-                valid = 1;
-            }
+                if(numLength == 11)
+                    {
+                        system("cls");
+                        TakingAddress();
+                    }
+                    else{
+                        printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t The Length of Number must be 11! Try Again ");
+                        sleep(2);
+                        system("cls");
+                        TakingNumber();
+                    }
 
+            }
             else
-            {
+                {
+                    printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tInvalid Input!Number cannot contain any Character or Operator");
+                    sleep(2);
+                    system("cls");
+                    TakingNumber();
+                    }
 
-                valid = 0;
-                break;
-            }
         }
+}
 
-        if (!valid)
-        {
 
-            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tInvalid Input!contact number cannot contain character");
-            goto E;
-        }
-    }
-    system("cls");
 
-    //-------------------------------------Address-------------------------------------------//
-    do
+
+//-------------------------------------Address-------------------------------------------//
+
+    void TakingAddress()
     {
 
-        title_screen();
-        printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEnter Your Address: ");
-        scanf("%s", &p.address);
-        system("cls");
+                title_screen();
+                printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t..............Add Patient Record!................");
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEnter Your Address: ");
+                gets(p.address);
 
-        p.address[0] = toupper(p.address[0]);
+                int addLength = strlen(p.address);
 
-        if (strlen(p.address) > 50 || strlen(p.address) <= 3)
-        {
+                p.address[0] = toupper(p.address[0]);
 
-            valid = 0;
-            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tMax range of Address is 50 and min range is 3");
-        }
-        else
-        {
+                if (addLength < 3)
+                {
+                    printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tMax range of Address is 50 and min range is 3");
+                    sleep(2);
+                    system("cls");
+                    TakingAddress();
+                }
+                else
+                {
+                    system("cls");
+                    TakingDoctorName();
+                }
+}
 
-            valid = 1;
-            break;
-        }
-    }
 
-    while (!valid);
-    system("cls");
+
+
 
 //-------------------------------------Doctor Name-------------------------------------------//
-F:
-    system("cls");
+
+void TakingDoctorName()
+{
     title_screen();
+    printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t..............Add Patient Record!................");
     printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\tEnter Doctor Name: ");
     gets(p.doctor);
-    system("cls");
 
     p.doctor[0] = toupper(p.doctor[0]);
 
-    if (strlen(p.doctor) > 15 || strlen(p.doctor) <= 2)
+    if (strlen(p.doctor) <= 2)
     {
 
         printf("\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\tMaximum range of Doctor name is 15 and Minimum range is 3");
-        getch();
-        goto F;
+        sleep(2);
+        system("cls");
+        TakingDoctorName();
+
     }
-    else
-    {
+    else{
+
         for (b = 0; b < strlen(p.doctor); b++)
         {
-            if (!isalpha(p.doctor[b]))
+            if(isalpha(p.doctor[b]))
             {
+                system("cls");
+                TakingProblem();
 
-                valid = 0;
-            }
+                }
             else
             {
-
-                valid = 1;
-                break;
-            }
-        }
-
-        if (!valid)
-        {
-            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tInvalid Input!Doctor name must be in Character");
-            getch();
-            goto F;
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tInvalid Input!Doctor name must be in Character");
+                sleep(2);
+                system("cls");
+                TakingDoctorName();
+                }
         }
     }
-    system("cls");
+}
 
-    //-------------------------------------Patient Problem-------------------------------------------//
-    do
+//-------------------------------------Patient Problem-------------------------------------------//
+
+    void TakingProblem()
+    {
+    title_screen();
+    printf("\n\n\n\n\n\t\t\t\t\t\t\t\t\t..............Add Patient Record!................");
+    printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\tEnter Disease Name : ");
+    gets(p.problem);
+
+    p.problem[0] = toupper(p.problem[0]);
+
+    if (strlen(p.doctor) <= 2)
     {
 
-        title_screen();
-        printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tEnter patient's problem: ");
-        scanf("%s", &p.problem);
+        printf("\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\tMaximum range of Disease Name is 100 and Minimum range is 3");
+        sleep(2);
         system("cls");
+        TakingProblem();
 
-        p.problem[0] = toupper(p.problem[0]);
+    }
+    else{
 
-        if (strlen(p.problem) > 50 || strlen(p.problem) <= 3)
+        for (b = 0; b < strlen(p.problem); b++)
         {
+            if(isalpha(p.problem[b]))
+            {
+                system("cls");
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tCode is Working Good!");
+                getch();
+                exit(0);
 
-            valid = 0;
-            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tMax range of character is 50 and min range is 3");
-        }
-        else
-        {
-
-            valid = 1;
-            break;
+                }
+            else
+            {
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tInvalid Input!Disease name must be in Character");
+                sleep(2);
+                system("cls");
+                TakingProblem();
+                }
         }
     }
-
-    while (!valid);
-    system("cls");
 }
+
